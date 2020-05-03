@@ -1,0 +1,27 @@
+<?php
+error_reporting(-1);
+include('seguridad.php');
+session_start();
+require 'db/dbconfig.php';
+
+if(isset($_POST['alimentobtn']))
+{
+    $nombre = $_POST['nombre'];
+    $descripcion = $_POST['descripcion'];
+    $categoria_alimento = $_POST['categoria_alimento'];
+
+    $query = "INSERT INTO alimentos(nombre,descripcion,categoria_alimento) VALUES ('$nombre','$descripcion','$categoria_alimento')";
+        $query_run = mysqli_query($conexion, $query);
+    
+        if($query_run)
+        {
+            $_SESSION['success'] =  "El alimento ha sido agregado con éxito";
+            header('Location: alimentos.php');
+        }
+        else 
+        {
+            $_SESSION['status'] =  "El alimento no ha sido agregado";
+            header('Location: alimentos.php');
+        }
+}
+?>

@@ -1,0 +1,50 @@
+<?php
+error_reporting(-1);
+include('seguridad.php');
+session_start();
+require 'db/dbconfig.php';
+
+if(isset($_POST['alimentobtn']))
+{
+    $nombre = $_POST['nombre'];
+    $descripcion = $_POST['descripcion'];
+    $categoria_alimento = $_POST['categoria_alimento'];
+
+    $query = "INSERT INTO alimentos(nombre,descripcion,categoria_alimento) VALUES ('$nombre','$descripcion','$categoria_alimento')";
+        $query_run = mysqli_query($conexion, $query);
+    
+        if($query_run)
+        {
+            $_SESSION['success'] =  "El alimento ha sido agregado con éxito";
+            header('Location: alimentos.php');
+        }
+        else 
+        {
+            $_SESSION['status'] =  "El alimento no ha sido agregado";
+            header('Location: alimentos.php');
+        }
+}
+
+
+if (isset($_POST['actualizarbtn'])) 
+{
+    $id = $_POST['id_alimento'];
+   $nombre = $_POST['edit_nombre'];
+   $descripcion = $_POST['edit_descripcion'];
+   $categoria_alimento = $_POST['edit_categoria_alimento'];
+
+    $query = "UPDATE alimentos SET nombre='$nombre', descripcion='$descripcion', categoria_alimento='$categoria_alimento' WHERE id_alimento='$id_alimento' ";
+        $query_run = mysqli_query($conexion, $query);
+
+        if($query_run)
+        {
+            $_SESSION['success'] =  "Los datos han sido actualizados";
+            header('Location: alimentos.php');
+        }
+        else 
+        {
+            $_SESSION['status'] =  "Los datos no se han actualizados";
+            header('Location: alimentos.php');
+        }
+}
+?>
